@@ -1,0 +1,44 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+      <div class="card-title">
+          <h3 class="card-label">PAYMENT </h3>
+      </div>
+
+  </div>
+
+   
+
+    <div class="card-body defaul">
+      <div class="form-group row"  [formGroup]="searchGroup">
+        <div class="col-lg-4 row">
+        <label class="col-form-label "  style="margin-left: 25px;"><b>Invoice No:</b></label>
+        <div class="">
+          <input type="text" name="invoice_no"  formControlName="invoice_no" class="form-control form-control-solid" placeholder="Invoice No"/>
+        </div>
+        </div>
+        <div class="col-lg-2">
+          <button
+          type="submit"
+          class="btn btn-primary btn-elevate sho"
+          (click)="save()"> Show
+         </button>
+          
+        </div>
+
+        <div class="col-lg-2">
+          <button
+          type="submit"
+          class="btn btn-primary btn-elevate sho"
+          (click)="allRecords()"> Show All
+         </button>
+          
+        </div>
+
+       </div>
+
+        <table class="lottable" id="lotTable" style="width: 100%;">
+           
+        </table>
+    </div>
+</div>  
+      

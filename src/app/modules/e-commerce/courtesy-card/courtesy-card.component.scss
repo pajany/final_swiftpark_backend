@@ -1,0 +1,23 @@
+.alert-success {
+    width: 60% !important;
+}
+.admimsg {
+    margin: auto;
+    margin-left: 81px !important;
+    right: 73px;
+    text-align: center;
+    top: 1em;
+    width: 80%;
+    z-index: 138;
+  }
+
+  .norecord{
+    margin-left: 40% !important;
+    margin-top: 20px !important;
+    position: absolute;
+  }
+
+  .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #5dab14 !important;
+    border-color: #5dab14 !important;
+}

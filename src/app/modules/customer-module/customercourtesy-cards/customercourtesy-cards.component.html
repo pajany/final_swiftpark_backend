@@ -1,0 +1,26 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+      <div class="card-title">
+          <h3 class="card-label">Courtesy Card Details: </h3>
+      </div>
+
+  </div>
+ 
+  
+
+    <div class="row" style="margin-top: 2%;">
+       <label class="col-lg-1.5" style="margin-left: 3%;margin-top: 1%;"><b>Courtesy Card No:</b></label>  
+      <div class="col-lg-3">
+        <select class="form-control" name="card_no"  (change)="getcardDetails($event)">
+          <option> Please Select</option>  
+          <option *ngFor="let courtesy of customercourtesycardService.items$ | async; let i = index" [value]="courtesy.card_no">{{courtesy.card_no}}</option>
+        </select>
+      </div>
+    </div> 
+
+  <table class="CourtesyTable" id="CourtesyTable" style="width: 100%;margin-left: 2%;margin-top: 3%;">
+      
+  </table>
+     
+</div>  
+      

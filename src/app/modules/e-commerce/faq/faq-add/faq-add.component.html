@@ -1,0 +1,70 @@
+
+<div class="card card-custom gutter-b">
+    
+    <div class="card-header">
+        <div class="card-title">
+          <h3 class="card-label">
+          
+           
+          </h3>
+        </div>
+     
+        <div class="card-toolbar">
+          <a type="button" class="btn   btn-primary font-weight-bold" routerLink="/superadmin/managefaq">
+            <i class="fa fa-arrow-left"></i>Back
+          </a>
+          
+        </div>
+      </div>
+
+    
+    <div class="card-body">  
+     
+     
+        <form
+        action="#"
+        class="form form-label-right"
+        [formGroup]="productForm">
+      
+        
+          
+      <table class="table  " formArrayName="quantities">
+       
+        <tr *ngFor="let quantity of quantities().controls; let i=index" [formGroupName]="i">
+         
+            <label> Questions : </label>
+              <input type="text" formControlName="faq_question"  class="form-control">
+          
+              <label>  Asnwers: </label>
+               
+              <textarea id="faq_answer" formControlName="faq_answer" rows="4" cols="145" class="form-control "> </textarea>
+              <button (click)="removeQuantity(i)" class="btn btn-danger" style="margin-top:20px;">Remove</button>
+
+           
+          
+        </tr>
+        <!-- <button type="submit" class="btn btn-primary" style="margin-top:42px; margin-left: 8px;">Submit</button> -->
+      </table>
+      <ng-container>
+        <div class="row">
+            
+            <div width="150px" class="col-lg-2"><button type="button" (click)="addQuantity()" class="btn btn-primary">Add FAQ</button></div>
+          
+
+        <button
+          type="submit"
+          class="btn btn-primary btn-elevate"
+          (click)="onSubmit()"
+          >
+          Save
+          
+        </button>
+    </div>
+      </ng-container>
+
+   
+      
+    </form>
+   
+</div>
+  </div>

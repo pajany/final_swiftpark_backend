@@ -1,0 +1,175 @@
+
+<div id="msgupdate" class="alert alert-custom alert-primary msgupdate" style="display: none;"  >
+    <div class="alert-text admimsg">Manage page Successfully update!</div>
+  </div>
+  
+  <div id="msgadd" class="alert alert-custom alert-primary msgadd" style="display: none;"  >
+    <div class="alert-text admimsg">Manage page Successfully added!</div>
+  </div>
+  
+  <div class="card card-custom gutter-b">
+    <div class="card-header">
+      <div class="card-title">
+        <h3 class="card-label">Manage Page list 
+        
+        </h3>
+      </div>
+      <div class="card-toolbar" style="margin-left: 60%;">
+        
+      </div>
+  
+      <div class="card-toolbar">
+        <a
+          type="button"
+          class="btn btn-primary"
+          routerLink="/superadmin/managepage/add"
+          >New Page</a>
+      </div>
+    </div>
+    
+    <div class="card-body">
+      <!-- begin: Filtration form -->
+      <div class="form form-label-right">
+        <div class="form-group row">
+          <div class="col-lg-4">
+            <div class="row" [formGroup]="filterGroup">
+             
+            </div>
+          </div>
+          <div class="col-lg-6"></div>
+          <div class="col-lg-2" [formGroup]="searchGroup">
+            <input
+              type="text"
+              class="form-control"
+              name="searchText"
+              placeholder="Search"
+              value=""
+              formControlName="searchTerm"
+            />
+            <!-- <small class="form-text text-muted"
+              ><b>Search</b> in all fields</small> -->
+          </div>
+        </div>
+      </div>
+      <!-- end: Filtration form -->
+  
+      <!-- begin: Grouping -->
+      <ng-container *ngIf="grouping.getSelectedRowsCount()">
+        <div class="form">
+          <div
+            class="row align-items-center form-group-actions margin-top-20 margin-bottom-20"
+          >
+            <div class="col-xl-12">
+              <div class="form-group form-group-inline">
+                <div class="form-label form-label-no-wrap">
+                  <label class="font-bold font-danger"
+                    ><span
+                      >Selected records count:
+                      <b>{{ grouping.getSelectedRowsCount() }}</b></span
+                    ></label
+                  >
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    class="btn btn-danger font-weight-bolder font-size-sm mr-1"
+                    (click)="deleteSelected()"
+                  >
+                    <i class="fa fa-trash"></i> Delete All</button
+                  >&nbsp;
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <!-- end: Grouping -->
+      <!-- begin:Table -->
+      <div class="table-responsive angular-bootstrap-table">
+        <table
+          class="table table-head-custom table-vertical-center overflow-hidden"
+        >
+          <thead>
+           
+            <th>
+             Page ID
+              <app-sort-icon
+                column="page_id"
+                [activeColumn]="sorting.column"
+                [activeDirection]="sorting.direction"
+                (sort)="sort($event)"
+              ></app-sort-icon>
+            </th>
+            <th>
+             Page Title
+              <app-sort-icon
+                column="page_title"
+                [activeColumn]="sorting.column"
+                [activeDirection]="sorting.direction"
+                (sort)="sort($event)"
+              ></app-sort-icon>
+            </th>
+          
+            <th>ACTIONS  </th>
+          </thead>
+          <tbody>
+       
+            <tr *ngFor="let managepage of managepageService.items$ | async">
+              
+              <!-- <td *ngIf="managepage">
+                <div [innerHTML]="managepage.page_content"></div>
+              </td> -->
+
+              <td>{{ managepage.page_id }}   </td>
+              <td>{{ managepage.page_title }}</td>
+                     
+              <td>
+                <a
+                  title="Edit managepage"
+                  class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                  [routerLink]="'/superadmin/managepage/edit/' + managepage.page_id"
+                >
+                  <span
+                    [inlineSVG]="
+                      './assets/media/svg/icons/Communication/Write.svg'
+                    "
+                    cacheSVG="true"
+                    class="svg-icon svg-icon-md svg-icon-primary"
+                  >
+                  </span>
+                </a>
+                <a
+                  title="Delete managepage"
+                  class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                  (click)="delete(managepage.page_id)"
+                >
+                  <span
+                    [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
+                    cacheSVG="true"
+                    class="svg-icon svg-icon-md svg-icon-danger"
+                  >
+                  </span>
+                </a>
+              </td>  
+            </tr>
+          
+          </tbody>
+          
+          <div *ngIf="(managepageService.items$ | async).length == 0">
+            <span class="norecord"> No Records Found! </span>  
+          </div> 
+        
+  
+        </table>
+      </div>
+      <!-- end: Table -->
+      <app-paginator
+        class="d-flex justify-content-between align-items-center flex-wrap"
+        [paginator]="paginator"
+        [isLoading]="isLoading"
+        (paginate)="paginate($event)"
+      ></app-paginator>
+    </div>
+  </div>
+  

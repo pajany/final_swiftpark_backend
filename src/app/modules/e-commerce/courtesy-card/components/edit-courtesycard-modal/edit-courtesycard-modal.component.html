@@ -1,0 +1,197 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      <ng-container *ngIf="courtesycard">
+        <ng-container *ngIf="courtesycard.id">Edit</ng-container>
+        <ng-container *ngIf="!courtesycard.id">Create</ng-container>
+        CARD DETAILS
+      </ng-container>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px">
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"></div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="courtesycard">
+      <form action="#" class="form form-label-right" [formGroup]="formGroup">
+        <div class="card-body">
+          <div class="mb-15">
+
+            <div class="form-group row">
+              <label class="col-lg-3 col-form-label"><b>Lot No: </b><span style="color:#ff0000">*</span></label>
+              <div class="col-lg-5">
+                <select [attr.disabled]="courtesycard.id" class="form-control form-control-lg form-control-solid"
+                  name="lot_no" [class.is-invalid]="isControlInvalid('lot_no')" formControlName="lot_no">
+                  <option> Please Select</option>
+                  <option *ngFor="let product of productsService.items$ | async; let i = index"
+                    [value]="product.lot_no">{{product.lot_no }}</option>
+
+                </select>
+              </div>
+            </div>
+
+
+            <div *ngIf="!courtesycard.id" class="form-group row">
+              <label class="col-lg-3 col-form-label"><b>Card Start No: </b><span style="color:#ff0000">*</span></label>
+              <div class="col-lg-5">
+                <input type="text" class="form-control form-control-lg form-control-solid" name="card_start_no"
+                  placeholder="Card start No" autocomplete="off" [class.is-invalid]="isControlInvalid('card_start_no')"
+                  [class.is-valid]="isControlValid('card_start_no')" formControlName="card_start_no" minlength="6"
+                  maxlength="6" [pattern]="alphaNumeric" (keypress)="keyPressNumberOnly($event)" />
+                <div class="valid-feedback" *ngIf="isControlValid('card_start_no')">
+                  Card start no was entered correct
+                </div>
+                <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'card_start_no')">Value should have at
+                  least 6
+                </div>
+                <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'card_start_no')">card start No should
+                  have maximum 6</div>
+
+                <div class="invalid-feedback" *ngIf="controlHasError('required', 'card_start_no')">
+                  Card start No is required
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="!courtesycard.id" class="form-group row">
+              <label class="col-lg-3 col-form-label"><b>Card End No: </b><span style="color:#ff0000">*</span></label>
+              <div class="col-lg-5">
+                <input type="text" class="form-control form-control-lg form-control-solid" name="card_end_no"
+                  placeholder="Card End No" autocomplete="off" [class.is-invalid]="isControlInvalid('card_end_no')"
+                  [class.is-valid]="isControlValid('card_end_no')" formControlName="card_end_no" minlength="6"
+                  maxlength="6" [pattern]="alphaNumeric" (keypress)="keyPressNumberOnly($event)" />
+                <div class="valid-feedback" *ngIf="isControlValid('card_end_no')">
+                  Card end no was entered correct
+                </div>
+                <div class="invalid-feedback" *ngIf="controlHasError('required', 'card_end_no')">
+                  Card end No is required
+                </div>
+                <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'card_end_no')">Value should have at
+                  least 6
+                </div>
+                <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'card_end_no')">Card end No should
+                  have maximum 6</div>
+
+              </div>
+            </div>
+
+            <!-- <div class="form-group row">
+              <label class="col-lg-3 col-form-label"><b>Card Pin: </b><span style="color:#ff0000">*</span></label>
+              <div class="col-lg-5">
+                <input type="number" class="form-control form-control-lg form-control-solid" name="card_pin"
+                  placeholder="Card No" autocomplete="off" [class.is-invalid]="isControlInvalid('card_pin')"
+                  [class.is-valid]="isControlValid('card_pin')" formControlName="card_pin" />
+                <div class="valid-feedback" *ngIf="isControlValid('card_pin')">
+                  card Pin was entered correct
+                </div>
+                <div class="invalid-feedback" *ngIf="controlHasError('required', 'card_pin')">
+                  Card Pin is required
+                </div>
+              </div>
+            </div> -->
+
+            <!-- <div class="form-group row">
+              <label class="col-lg-3 col-form-label"><b>Available Calls:</b><span style="color:#ff0000">*</span></label>
+              <div class="col-lg-5">
+                <input type="number" class="form-control form-control-lg form-control-solid" name="calls"
+                  placeholder="calls" autocomplete="off" [class.is-invalid]="isControlInvalid('calls')"
+                  [class.is-valid]="isControlValid('calls')" formControlName="calls" />
+                <div class="valid-feedback" *ngIf="isControlValid('calls')">
+                  Calls was entered correct
+                </div>
+                <div class="invalid-feedback" *ngIf="controlHasError('required', 'calls')">
+                  Available calls is required
+                </div>
+              </div>
+            </div> -->
+
+            <!-- <div class="form-group row">
+              <label class="col-lg-3 col-form-label"><b>Amount:</b><span style="color:#ff0000">*</span></label>
+              <div class="col-lg-5">
+                <input type="number" class="form-control form-control-lg form-control-solid" name="amount"
+                  placeholder="Amount" autocomplete="off" [class.is-invalid]="isControlInvalid('amount')"
+                  [class.is-valid]="isControlValid('amount')" formControlName="amount" />
+                <div class="valid-feedback" *ngIf="isControlValid('amount')">
+                  Amount was entered correct
+                </div>
+                <div class="invalid-feedback" *ngIf="controlHasError('required', 'amount')">
+                  Available Amount is required
+                </div>
+              </div>
+            </div> -->
+
+
+            <div class="form-group row">
+              <label class="col-lg-3 col-form-label"><b>Default Calls:</b><span style="color:#ff0000">*</span></label>
+              <div class="col-lg-5">
+                <input type="number" class="form-control form-control-lg form-control-solid" name="defaultcalls"
+                  placeholder="defaultcalls" autocomplete="off" [class.is-invalid]="isControlInvalid('defaultcalls')"
+                  [class.is-valid]="isControlValid('defaultcalls')" formControlName="defaultcalls" value="5" />
+                <div class="valid-feedback" *ngIf="isControlValid('defaultcalls')">
+                  defaultcalls was entered correct
+                </div>
+                <div class="invalid-feedback" *ngIf="controlHasError('required', 'defaultcalls')">
+                  Available defaultcalls is required
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+              <label class="col-lg-3 col-form-label"><b>Card Type:</b> <span style="color:#ff0000">*</span></label>
+              <div class="col-lg-5">
+                <select class="form-control form-control-lg form-control-solid" name="card_type"
+                  [class.is-invalid]="isControlInvalid('card_type')" formControlName="card_type">
+                  <option value="Unlimited">Unlimited</option>
+                  <option value="Weekly">Weekly</option>
+                  <option value="Monthly">Monthly</option>
+                  <option value="One time">One time</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-lg-3 col-form-label"><b>Card Valid:</b></label>
+              <div class="col-lg-5">
+                <input type="checkbox" id="card_vaild" name="card_vaild" formControlName="card_vaild"
+                  [(ngModel)]="twentyfourhour_permit_checked">
+                <label class="labelcls">Vaild</label>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-lg-3 col-form-label"><b>Status:</b></label>
+              <div class="col-lg-5">
+                <select class="form-control form-control-lg form-control-solid" name="status"
+                  [class.is-invalid]="isControlInvalid('status')" formControlName="status">
+                  <option value="1">Active</option>
+                  <option value="0">InActive</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-5">
+              <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+                Cancel
+              </button>
+              <ng-container *ngIf="courtesycard">
+                <button type="submit" class="btn btn-primary btn-elevate" (click)="save()"
+                  [disabled]="formGroup.invalid">
+                  Save
+                </button>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+
+</div>

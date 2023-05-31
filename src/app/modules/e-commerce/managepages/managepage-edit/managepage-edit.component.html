@@ -1,0 +1,122 @@
+<div class="card card-custom gutter-b">
+  <ng-container *ngIf="isLoading$ | async">
+    <div class="progress progress-modal">
+      <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+        style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+  </ng-container>
+
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">
+        <ng-container *ngIf="managepage">
+          {{ id ? "Edit" : "New" }} ManagePage
+
+        </ng-container>
+
+      </h3>
+
+    </div>
+
+    <div class="card-toolbar">
+      <a type="button" class="btn   btn-primary font-weight-bold" routerLink="/superadmin/managepage">
+        <i class="fa fa-arrow-left"></i>Back
+      </a>
+      <button class="btn btn-primary font-weight-bold   ml-2" (click)="reset()">
+        <i class="fa fa-redo"></i>Reset
+      </button>
+    </div>
+  </div>
+
+
+
+  <div class="card-body">
+
+    <ng-container *ngIf="managepage">
+      <div class="mt-5">
+        <form action="#" class="form form-label-right" [formGroup]="formGroup">
+
+          <div class="form-group row">
+
+            <div class="col-lg-6">
+              <label>page Header <span style="color:#ff0000">*</span></label>
+              <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                placeholder="page Header" name="pheader" maxlength="30" [class.is-invalid]="isControlInvalid('pheader')"
+                [class.is-valid]="isControlValid('pheader')" formControlName="pheader" />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'pheader')">
+                page Header is required
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-group row">
+            <div class="col-lg-6">
+              <label>page Title <span style="color:#ff0000">*</span></label>
+              <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                placeholder="page Title" name="ptitle" maxlength="30" [class.is-invalid]="isControlInvalid('ptitle')"
+                [class.is-valid]="isControlValid('ptitle')" formControlName="ptitle" />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'ptitle')">
+                page Title is required
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-lg-6">
+              <label>Slug <span style="color:#ff0000">*</span></label>
+              <input type="text" class="form-control form-control-lg form-control-solid" autocomplete="off"
+                placeholder="slug" name="slug" maxlength="30" [class.is-invalid]="isControlInvalid('slug')"
+                [class.is-valid]="isControlValid('slug')" formControlName="slug" />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'slug')">
+                slug is required
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-lg-6">
+              <label>Main Menu </label>
+              <input type="checkbox" id="ch_main_menu" name="ch_main_menu" formControlName="ch_main_menu"
+                [(ngModel)]="main_menu" (change)="show_mainmanu($event)" style="margin-left: 15px;">
+            </div>
+          </div>
+
+          <div class="form-group row" *ngIf="main_menu">
+            <div class="col-lg-6">
+              <label>Main Title </label>
+              <input type="text" *ngIf="main_menu" class="form-control form-control-lg form-control-solid"
+                autocomplete="off" placeholder="Main Manu " name="main_menu_name" formControlName="main_menu_name" />
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-lg-12">
+              <label> Description <span style="color:#ff0000">*</span></label>
+              <br>
+
+              <quill-editor formControlName="page_content" name="page_content" [styles]="{height: '200px'}"></quill-editor>
+
+              <!-- <ckeditor [editor]="Editor"  data="<p>Hello, world!</p>"></ckeditor> -->
+
+            </div>
+          </div>
+
+
+
+          <div class="float-right">
+            <a class="btn btn-default font-weight-bold mr-2" routerLink="/superadmin/managepage">Cancel</a>
+
+            <ng-container *ngIf="managepage">
+              <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">
+                Save
+              </button>
+            </ng-container>
+          </div>
+        </form>
+      </div>
+    </ng-container>
+
+
+  </div>
+</div>

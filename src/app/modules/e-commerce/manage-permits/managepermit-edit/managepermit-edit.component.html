@@ -1,0 +1,206 @@
+<div class="card card-custom gutter-b">
+  <ng-container>
+    <div class="progress progress-modal">
+      <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+        style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+  </ng-container>
+
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">
+        Add View Permit
+
+      </h3>
+
+    </div>
+
+    <div class="card-toolbar">
+      <a *ngIf="isAdminMenu" type="button" class="btn   btn-primary font-weight-bold" routerLink="/superadmin/products">
+        <i class="fa fa-arrow-left"></i>Back
+      </a>
+      <a *ngIf="!isAdminMenu" type="button" class="btn   btn-primary font-weight-bold"
+        routerLink="/customer/viewpermits">
+        <i class="fa fa-arrow-left"></i>Back
+      </a>
+      <button class="btn btn-primary font-weight-bold   ml-2">
+        <i class="fa fa-redo"></i>Reset
+      </button>
+    </div>
+  </div>
+
+
+
+  <div class="card-body">
+
+    <ng-container>
+      <div class="mt-5">
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+
+          <div class="form-group row">
+            <div class="col-lg-6">
+              <label>Lot No <span style="color:#ff0000">*</span></label>
+              <input *ngIf="!isAdminMenu" type="text" [(ngModel)]="lot_no" name="lot_no"
+                class="form-control form-control-lg form-control-solid" disabled>
+              <select *ngIf="isAdminMenu" name="lot_number" class="form-control" [(ngModel)]="lot_no"
+                #lot_number="ngModel" (change)="onCheckboxChange($event.target.value)"
+                [ngClass]="{ 'is-invalid': f.submitted && lot_number.invalid }" required>
+                <option value=""> Please Select</option>
+                <option [value]="product.lot_no" *ngFor=" let product of productsService.items$ | async; let i=index">
+                  {{product.lot_no }}</option>
+              </select>
+            </div>
+
+            <div class="col-lg-6">
+              <label>Permit Type </label>
+              <select class="form-control" name="permit_type" [(ngModel)]="permittype" #permit_type="ngModel"
+                (change)="amountCalculation()" [ngClass]="{ 'is-invalid': f.submitted && permit_type.invalid }"
+                required>
+                <option value=""> Please Select</option>
+                <option *ngFor="let ptype of tableData;  let j = index" [value]="ptype.name">
+                  {{ptype.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <div class="col-lg-6">
+              <label>Quantity <span style="color:#ff0000">*</span></label>
+              <!-- <input type="number" name="quantity" class="form-control num" min="0" max="10000000"
+                [(ngModel)]="quantity" #quantity="ngModel" [ngClass]="{ 'is-invalid': f.submitted && quantity.invalid }"
+                > -->
+              <input autofocus #input class="form-control form-control-lg form-control-solid" type="number"
+                name="quantity1" [(ngModel)]="quantity" #quantity1="ngModel"
+                [ngClass]="{ 'is-invalid': f.submitted && quantity1.invalid }" (ngModelChange)="amountCalculation()"
+                required>
+            </div>
+
+            <div class="col-lg-6">
+              <label> Permit Expires <span style="color:#ff0000">*</span></label>
+              <input *ngIf="totalAmount === 0" type="text" class="form-control" disabled>
+              <input *ngIf="totalAmount !== 0" [ngModel]="expiryDate | date:'medium':'GMT-5'"
+                (ngModelChange)="expiryDate=$event" name="expiryDate" type="text"
+                class="form-control form-control-lg form-control-solid" disabled>
+
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <div class="col-lg-6">
+              <label>Amount ($) <span style="color:#ff0000">*</span></label>
+              <input [ngModel]="amount | currency" (ngModelChange)="amount=$event" name="amount" type="text"
+                class="form-control" disabled>
+
+            </div>
+
+            <div class="col-lg-6">
+              <label>Tax ($)<span style="color:#ff0000">*</span></label>
+              <input [ngModel]="percentage | currency" (ngModelChange)="percentage=$event" name="taxAmount" type="text"
+                class="form-control" disabled>
+
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-lg-6">
+              <label>Total Amount ($) <span style="color:#ff0000">*</span></label>
+              <input [ngModel]="totalAmount | currency" (ngModelChange)="totalAmount=$event" name="totalAmount"
+                type="text" class="form-control" disabled>
+
+            </div>
+
+            <div class="col-lg-6">
+              <label>License No<span style="color:#ff0000">*</span></label>
+              <input class="form-control form-control-lg form-control-solid" [pattern]="alphaNumeric" type="text"
+                (keypress)="keyPressAlphaNumericWithCharacters($event)" name="license" [(ngModel)]="model.license"
+                #license="ngModel" [ngClass]="{ 'is-invalid': f.submitted && license.invalid }" required>
+              <span style="color: red;"> {{ Licenseno }} </span>
+            </div>
+
+          </div>
+
+          <div class="form-group row">
+            <div class="col-lg-6">
+              <label>Email <span style="color:#ff0000">*</span></label>
+              <input class="form-control form-control-lg form-control-solid" type="text" name="email"
+                [(ngModel)]="model.email" #email="ngModel" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }"
+                required email />
+
+            </div>
+
+            <div class="col-lg-6">
+              <label>Phone <span style="color:#ff0000">*</span></label>
+              <input class="form-control form-control-lg form-control-solid" type="text" name="phone"
+                [(ngModel)]="model.phone" #phone="ngModel" [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }"
+                required />
+
+            </div>
+
+          </div>
+          <div class="form-group row">
+            <div class="col-lg-6">
+              <label>Courtesy Card No <span style="color:#ff0000">*</span></label>
+              <input class="form-control form-control-lg form-control-solid" type="text" name="cardnumber"
+                [(ngModel)]="model.courtesyCard" #courtesyCard="ngModel"
+                [ngClass]="{ 'is-invalid': f.submitted && courtesyCard.invalid }" required />
+
+            </div>
+            <div class="col-lg-6">
+              <label>Courtesy Card Pin <span style="color:#ff0000">*</span></label>
+              <input class="form-control form-control-lg form-control-solid" type="text" name="pin"
+                [(ngModel)]="model.pin" #pin="ngModel" [ngClass]="{ 'is-invalid': f.submitted && pin.invalid }"
+                required />
+
+            </div>
+
+          </div>
+
+
+
+
+
+          <div class="float-right">
+            <a class="btn btn-default font-weight-bold mr-2" routerLink="/superadmin/products">Cancel</a>
+
+
+
+            <ng-container>
+              <button class="btn btn-primary">Submit</button>
+              <button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#exampleModal">Open
+                Modal</button>
+            </ng-container>
+          </div>
+        </form>
+      </div>
+    </ng-container>
+
+  </div>
+</div>
+
+
+<div class="modal" [class.show]="show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <i class="fa fa-times-circle fa-3x material-icons" style="font-size: 100px;"></i>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <p>{{message}}</p>
+        <button class="btn btn-success" data-dismiss="modal"><span>Close</span>
+          <i class="fa fa-arrow-right fa-3x pl-1">
+          </i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-clip-rotate-multiple"
+  [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

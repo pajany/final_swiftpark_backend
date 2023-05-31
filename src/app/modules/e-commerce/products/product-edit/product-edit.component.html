@@ -1,0 +1,797 @@
+
+<div class="card card-custom gutter-b">
+  <ng-container *ngIf="isLoading$ | async">
+    <div class="progress progress-modal">
+      <div
+        class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+        role="progressbar"
+        style="width: 100%"
+        aria-valuenow="100"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      ></div>
+    </div>
+  </ng-container>
+
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">
+        <ng-container *ngIf="product">
+          {{ id ? "Edit" : "New" }} Customer
+          <!-- <span *ngIf="product && product.id"
+            >{{ product.client_name }}  
+            </span
+          >  -->
+        </ng-container>
+       
+      </h3>
+
+    </div>
+ 
+    <div class="card-toolbar">
+      <a type="button" class="btn   btn-primary font-weight-bold" routerLink="/superadmin/products">
+        <i class="fa fa-arrow-left"></i>Back
+      </a>
+      <button class="btn btn-primary font-weight-bold   ml-2" (click)="reset()">
+        <i class="fa fa-redo"></i>Reset
+      </button>
+    </div>
+  </div>
+  
+   
+
+  <div class="card-body">
+    <h4 class=" text-dark font-weight-bold mb-10">Lot Details:</h4>
+     <!-- <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+     <li class="nav-item cursor-pointer" (click)="changeTab(tabs.BASIC_TAB)">
+        <a
+          class="nav-link"
+          data-toggle="tab"
+          role="tab"
+          [attr.aria-selected]="activeTabId === tabs.BASIC_TAB"
+          [class.active]="activeTabId === tabs.BASIC_TAB"
+        >
+          Basic info
+        </a>
+      </li> -->
+      <!-- <li
+        *ngIf="product && product.id"
+        class="nav-item cursor-pointer"
+        (click)="changeTab(tabs.REMARKS_TAB)"
+      >
+        <a
+          class="nav-link"
+          data-toggle="tab"
+          role="button"
+          [attr.aria-selected]="activeTabId === tabs.REMARKS_TAB"
+          [class.active]="activeTabId === tabs.REMARKS_TAB"
+          >Product remarks</a
+        >
+      </li>
+      <li
+        *ngIf="product && product.id"
+        class="nav-item cursor-pointer"
+        (click)="changeTab(tabs.SPECIFICATIONS_TAB)"
+      >
+        <a
+          class="nav-link"
+          data-toggle="tab"
+          role="tab"
+          [attr.aria-selected]="activeTabId === tabs.SPECIFICATIONS_TAB"
+          [class.active]="activeTabId === tabs.SPECIFICATIONS_TAB"
+          >Product specifications</a
+        >
+      </li> 
+    </ul>-->
+    <ng-container *ngIf="product">
+      <div class="mt-5" >
+        <form
+          action="#"
+          class="form form-label-right"
+          [formGroup]="formGroup"
+           
+        >
+          <div class="form-group row">
+            <div class="col-lg-4">
+              <label>Lot No <span style="color:#ff0000">*</span></label>
+              <input
+                type="text"
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                placeholder="Lot no"
+                maxlength="30" 
+                name="lot_no"
+                (keyup)="checkLotno($event.target.value)"
+                [class.is-invalid]="isControlInvalid('lot_no')"
+                [class.is-valid]="isControlValid('lot_no')"
+                formControlName="lot_no"
+              />
+ 
+              <!-- <div class="valid-feedback" *ngIf="isControlValid('lot_no')">
+                Lot No was entered correct
+              </div> -->
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('pattern', 'lot_no')"
+              >
+             Invalid Lot number
+              </div>
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'lot_no')"
+              >
+              Lot No is required 
+              </div>
+           
+              <div *ngIf="ExistLOTNOError " class="error-changes">
+                <span  style="color: firebrick;" >Lot no already exists </span> </div>
+
+            </div>
+
+            <div class="col-lg-4">
+              <label>Located <span style="color:#ff0000">*</span></label>
+              <input
+                type="text"
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                placeholder="Located"
+                maxlength="40" 
+                name="located"
+                [class.is-invalid]="isControlInvalid('located')"
+                [class.is-valid]="isControlValid('located')"
+                formControlName="located"
+              />
+              
+              <!-- <div class="valid-feedback" *ngIf="isControlValid('located')">
+                Located was entered correct
+              </div> -->
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'located')"
+              >
+              Located is required
+              </div>
+            </div>
+
+            <div class="col-lg-4" *ngIf="qrimagepath">
+              <label>  </label>
+               
+               <img [src]="qrimagepath" height="110px" width="120px" class=" form-control-solid">
+ 
+               
+            </div>
+
+          </div>
+          
+            <h4 class=" text-dark font-weight-bold mb-10 cutdetail">Customer Details:</h4>
+
+          <div class="form-group row">
+            
+            <div class="col-lg-6">
+              <label>Client Name <span style="color:#ff0000">*</span></label>
+              <input
+                type="text"
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                placeholder="Client Name"
+                name="client_name"
+                maxlength="30" 
+                [class.is-invalid]="isControlInvalid('client_name')"
+                [class.is-valid]="isControlValid('client_name')"
+                formControlName="client_name"
+              />
+             
+              <!-- <div class="valid-feedback" *ngIf="isControlValid('client_name')">
+                Client Name was entered correct
+              </div> -->
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'client_name')"
+              >
+              Client Name is required
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <label>	Email <span style="color:#ff0000">*</span></label>
+              <input
+                type="text"
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                name="email"
+                [class.is-invalid]="isControlInvalid('email')"
+                [class.is-valid]="isControlValid('email')"
+                formControlName="email"
+              />
+             
+              <!-- <div class="valid-feedback" *ngIf="isControlValid('email')">
+                Email was entered correct
+              </div> -->
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'email')"
+               >
+                  Email is required
+              </div>
+               
+
+            </div>
+          
+          </div>
+
+          <div class="form-group row">
+          <div class="col-lg-6">
+            <label>Address <span style="color:#ff0000">*</span></label>
+            <textarea 
+             
+              class="form-control form-control-lg form-control-solid"
+              autocomplete="off"
+              placeholder="Address"
+              name="address"
+              [class.is-invalid]="isControlInvalid('address')"
+              [class.is-valid]="isControlValid('address')"
+              formControlName="address"
+            >
+             </textarea>
+           
+            <div
+              class="invalid-feedback"
+              *ngIf="controlHasError('required', 'address')"
+            >
+            Address is required
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <label>Note <span style="color:#ff0000">*</span></label>
+            <textarea 
+             
+              class="form-control form-control-lg form-control-solid"
+              autocomplete="off"
+              placeholder="Note"
+              name="note"
+              [class.is-invalid]="isControlInvalid('note')"
+              [class.is-valid]="isControlValid('note')"
+              formControlName="note"
+            >
+             </textarea>
+           
+            <div
+              class="invalid-feedback"
+              *ngIf="controlHasError('required', 'note')"
+            >
+            Note is required
+            </div>
+          </div>
+        </div>
+
+
+          <div class="form-group row">
+            <div class="col-lg-6">
+              <label>City <span style="color:#ff0000">*</span></label>
+              <input
+                type="text"
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                placeholder="City"
+                name="city"
+                maxlength="30" 
+                [class.is-invalid]="isControlInvalid('city')"
+                [class.is-valid]="isControlValid('city')"
+                formControlName="city"
+              />
+              
+              <!-- <div class="valid-feedback" *ngIf="isControlValid('city')">
+                City was entered correct
+              </div> -->
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'city')"
+              >
+              City is required
+              </div>
+            </div>
+           
+            <div class="col-lg-6">
+              <label>Keycontact <span style="color:#ff0000">*</span></label>
+              <input
+                type="text"
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                maxlength="40" 
+                placeholder="keycontact"
+                name="keycontact"
+                [class.is-invalid]="isControlInvalid('keycontact')"
+                [class.is-valid]="isControlValid('keycontact')"
+                formControlName="keycontact"
+              />
+             
+              <!-- <div class="valid-feedback" *ngIf="isControlValid('keycontact')">
+                keycontact was entered correct
+              </div> -->
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'keycontact')"
+              >
+              keycontact is required
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-group row">
+
+            
+
+            <div class="col-lg-6">
+              <label>state <span style="color:#ff0000">*</span></label>
+              <input
+                type="text"
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                maxlength="40" 
+                placeholder="state"
+                name="state"
+                [class.is-invalid]="isControlInvalid('state')"
+                [class.is-valid]="isControlValid('state')"
+                formControlName="state"
+              />
+             
+              <!-- <div class="valid-feedback" *ngIf="isControlValid('keycontact')">
+                keycontact was entered correct
+              </div> -->
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'state')"
+              >
+              State is required
+              </div>
+            </div>
+
+
+            <div class="col-lg-6">
+              <label>Timezone <span style="color:#ff0000">*</span></label>
+              <select
+              class="form-control form-control-lg form-control-solid"
+              name="timezone"
+              [class.is-invalid]="isControlInvalid('timezone')"
+              formControlName="timezone">
+              <option value="Newfoundland">Newfoundland</option>
+              <option value="Atlantic">Atlantic</option>
+              <option value="Eastern">Eastern</option>
+              <option value="Central">Central</option>
+              <option value="Mountain">Mountain</option>
+              <option value="Pacific">Pacific</option>
+            </select>
+            </div>
+
+          </div>
+
+          <div class="form-group row">
+            
+            <div class="col-lg-6">
+              <label>Zip code <span style="color:#ff0000">*</span></label>
+              <input type="text"  
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                placeholder="Zip Code"
+                name="zipcode"
+                [class.is-invalid]="isControlInvalid('zipcode')"
+                [class.is-valid]="isControlValid('zipcode')"
+                formControlName="zipcode"
+                minlength="3" maxlength="10"
+              />
+             
+              <!-- <div class="valid-feedback" *ngIf="isControlValid('zipcode')">
+                Zipcode was entered correct
+              </div> -->
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'zipcode')"
+              >
+              Zipcode is required
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <label>Cell <span style="color:#ff0000">*</span></label>
+            
+              <input type="text" maxlength="12" 
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                placeholder="cell"
+                name="cell"
+                [class.is-invalid]="isControlInvalid('cell')"
+                [class.is-valid]="isControlValid('cell')"
+                formControlName="cell"
+              />
+             
+              <!-- <div class="valid-feedback" *ngIf="isControlValid('cell')">
+                cell was entered correct
+              </div> -->
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'cell')"
+              >
+              cell is required
+              </div>
+            </div>
+         
+
+          </div>
+
+          <div class="form-group row">
+           
+            <div class="col-lg-6">
+              <label>	phone <span style="color:#ff0000">*</span></label>
+              <input type="text" maxlength="12"
+              
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                name="Phone"
+                [class.is-invalid]="isControlInvalid('phone')"
+                [class.is-valid]="isControlValid('phone')"
+                formControlName="phone"
+              />
+              
+              <!-- <div class="valid-feedback" *ngIf="isControlValid('phone')">
+                Phone was entered correct
+              </div> -->
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'phone')"
+              >
+              Phone is required
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <label>Fax <span style="color:#ff0000">*</span></label>
+              <input type="text" maxlength="12"
+                 
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                placeholder="Fax"
+                name="fax"
+                [class.is-invalid]="isControlInvalid('fax')"
+                [class.is-valid]="isControlValid('fax')"
+                formControlName="fax"
+              />
+             
+              <!-- <div class="valid-feedback" *ngIf="isControlValid('fax')">
+                Fax was entered correct
+              </div> -->
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'fax')"
+              >
+              Fax is required
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-group row">
+            
+         
+
+          </div>
+          <h4 class=" text-dark font-weight-bold mb-10">Permit Type: <span style="color:#ff0000">*</span></h4>
+ 
+          <div class="form-group row">
+
+             
+            <div class="col-lg-2.7" style="margin-block-start: auto;margin-left: 16px;margin-top: 7px;">
+         
+              <input type="checkbox" id="thirtyday" name="thirtyday" 
+               formControlName="thirtyday"  [(ngModel)]="checked" (change)="monthly_permitType($event)">&nbsp;&nbsp;
+              <label class="">30 Day Pass <span class="amo label label-rounded"> $ </span></label>
+            </div>
+              <div class="col-lg-3"> 
+              <input
+              type="text"
+              *ngIf="checked"  
+              class="form-control form-control-lg form-control-solid"
+              autocomplete="off"
+              placeholder="30 Day Permit"
+              name="month_permit"
+              formControlName="month_permit"
+             />
+        </div>
+
+        </div>
+
+        <div class="form-group row">
+          <div class="col-lg-2.7" style="margin-block-start: auto;margin-left: 16px;margin-top: 7px;">
+            <input type="checkbox" id="twentyfourhour" name="thirtyday"  
+             formControlName="twentyfourhour" [(ngModel)]="twentyfourhour_permit_checked"
+             (change)="hour_permitType($event)"> 
+
+            <label class="labelcls">24 hour permit <span class="amo1 label label-rounded"> $ </span></label>
+          </div>
+          
+          <div class="col-lg-3">
+            <input
+            type="text"
+            *ngIf="twentyfourhour_permit_checked"
+            class="form-control form-control-lg form-control-solid"
+            maxlength="10" 
+            autocomplete="off"
+            placeholder="24 hour permit"
+            name="day_permit"
+            formControlName="day_permit"
+           />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-lg-2.7" style="margin-block-start: auto;margin-left: 16px;margin-top: 7px;">
+            <input type="checkbox" id="hourly" name="thirtyday"  
+            formControlName="hourly" [(ngModel)]="hour_permit_checked"
+             (change)="hourly_permitType($event)"> 
+            <label class="labelcls">Hourly <span class="amo2 label label-rounded"> $ </span></label>
+          </div>
+          <div class="col-lg-3">
+            <input
+            type="text"
+            *ngIf="hour_permit_checked"
+            class="form-control form-control-lg form-control-solid"
+            maxlength="10"
+            autocomplete="off"
+            placeholder="hourly permit"
+            name="hourly_permit"
+            formControlName="hourly_permit"
+           />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-lg-2.7" style="margin-block-start: auto;margin-left: 16px;margin-top: 7px;">
+            <input type="checkbox" id="allday" name="thirtyday" 
+             formControlName="allday" [(ngModel)]="allday_permit_checked"
+             (change)="allday_permitType($event)"> 
+            <label class="labelcls">All Day <span class="amo3 label label-rounded"> $ </span></label>
+          </div>
+          <div class="col-lg-3">
+            <input
+            type="text"
+            *ngIf="allday_permit_checked"
+            class="form-control form-control-lg form-control-solid"
+            autocomplete="off"
+            maxlength="10"
+            placeholder="All Day permit"
+            name="allday_permit_amount"
+            formControlName="allday_permit_amount"
+           />
+          </div>
+            <div class="col-lg-1">
+               <label class="labelcls" style="margin-top: 13px;">Expires at  </label>
+            </div>
+            <div class="col-lg-2" *ngIf="allday_permit_checked">
+                <input type="text"
+                *ngIf="allday_permit_checked"
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                placeholder="All Day permit"
+                name="allday_permit"
+                formControlName="allday_permit"
+              />
+           </div>
+
+           <div class="col-lg-2" *ngIf="allday_permit_checked">
+            <select
+            class="form-control form-control-lg form-control-solid"
+            name="alldaytime"
+            formControlName="alldaytime">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+           </div>
+
+        </div>
+
+        <div class="form-group row">
+          <div class="col-lg-2.7" style="margin-block-start: auto;margin-left: 16px;margin-top: 7px;">
+            <input type="checkbox" id="overnight" name="thirtyday" 
+             formControlName="overnight" [(ngModel)]="overnight_permit_checked"
+             (change)="overnight_permitType($event)"> 
+            <label class="labelcls">Overnight <span class="amo4 label label-rounded"> $ </span></label>
+          </div>
+          <div class="col-lg-3">
+            <input
+            type="text"
+            *ngIf="overnight_permit_checked"
+            class="form-control form-control-lg form-control-solid"
+            autocomplete="off"
+            placeholder="Overnight permit"
+            name="overnight_permit"
+            formControlName="overnight_permit"
+           />
+          </div>
+            <div class="col-lg-1">
+               <label class="labelcls" style="margin-top: 13px;">Expires at  </label>
+            </div>
+            <div class="col-lg-2" *ngIf="overnight_permit_checked">
+                <input type="text"
+                *ngIf="overnight_permit_checked"
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                placeholder="Overnight"
+                name="overnight_permit_amount"
+                formControlName="overnight_permit_amount"
+              />
+           </div>
+
+           <div class="col-lg-2" *ngIf="overnight_permit_checked">
+            <select
+            class="form-control form-control-lg form-control-solid"
+            name="overnighttime"
+            formControlName="overnighttime">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+           </div>
+
+        </div>
+
+        <h4 class=" text-dark font-weight-bold mb-10">Taxable Details:</h4>
+          <div class="form-group row">
+            <div class="col-lg-1">
+              <label class="labelcls" style="margin-top: 10px;">Taxable <span style="color:#ff0000">*</span>  </label>
+           </div>
+
+           <div class="col-lg-2" >
+              <select
+              class="form-control form-control-lg form-control-solid"
+              name="taxable"
+              (change)="taxamountType($event)"
+              formControlName="taxable">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+           </div>
+           
+           <div class="col-lg-2" *ngIf="taxable_checked =='Yes' ">
+             
+            <input type="number"
+            class="form-control form-control-lg form-control-solid"
+            autocomplete="off"
+            placeholder="Tax Amount"
+            name="tax_amount"
+            formControlName="tax_amount"
+          /> 
+          
+        </div>
+        <div class="col-lg-1.5 label label-rounded" style="margin-top: 2px;height: 37px;"> % </div>
+          </div>
+
+          <h4 class=" text-dark font-weight-bold mb-10">Billing:</h4>
+          <div class="form-group row">
+            <div class="col-lg-3">
+              <label class="labelcls" style="margin-top: 10px;" >Permits sold <span style="color:#ff0000">*</span><span class=""> - </span> Swiftpark charges a</label>
+            </div>
+            <div class="col-lg-2">
+              <input type="number"
+              class="form-control form-control-lg form-control-solid" autocomplete="off" name="permits_sold" formControlName="permits_sold" />
+            </div>
+            <div class="col-lg-1.5">
+              <label class="labelcls" style="margin-top: 10px;">	% of permit fee +  <span style="color:#ff0000">*</span></label>
+            </div>
+
+            <div class="col-lg-2">
+              <input type="number"
+              class="form-control form-control-lg form-control-solid" autocomplete="off" name="swift_charge" formControlName="swift_charge" />
+            </div>
+            <div class="col-lg-2">
+              <label class="labelcls " style="margin-top: 10px;margin-left: -11px;">$ transaction fee.  </label>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-lg-3">
+              <label style="margin-top: 10px;" class="labelcls">Courtesy cards <span class=""> - </span> Swiftpark charges a <span style="color:#ff0000">*</span></label>
+            </div>
+            <div class="col-lg-2">
+              <input type="number"
+              class="form-control form-control-lg form-control-solid" autocomplete="off" name="courtesy_charge" formControlName="courtesy_charge" />
+            </div>
+            <div class="col-lg-4">
+              <label class="labelcls" style="margin-top: 10px; margin-left: -5px;">	$ per card transaction to the client.  </label>
+            </div>
+ 
+          </div>
+
+          <h4 class=" text-dark font-weight-bold mb-10">Access:</h4>
+
+          <div class="form-group row">
+            <div class="col-lg-4">
+              <label>Client web log in: <span style="color:#ff0000">*</span></label>
+              <input
+                type="text"
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                placeholder="client web"
+                name="client_web"
+                [class.is-invalid]="isControlInvalid('client_web')"
+                [class.is-valid]="isControlValid('client_web')"
+                formControlName="client_web"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'client_web')"
+              >
+              client web is required
+              </div>
+              
+            </div>
+
+            <div class="col-lg-4">
+              <label>Password <span style="color:#ff0000">*</span></label>
+              <input
+                type="password"
+                class="form-control form-control-lg form-control-solid"
+                autocomplete="off"
+                placeholder="password"
+                name="password"
+                [class.is-invalid]="isControlInvalid('password')"
+                [class.is-valid]="isControlValid('password')"
+                formControlName="password"
+              />
+              
+              <!-- <div class="valid-feedback" *ngIf="isControlValid('password')">
+                password was entered correct
+              </div> -->
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'password')"
+              >
+              password is required
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-lg-3">
+             
+              <input type="checkbox" id="lot_active" name="lot_active" formControlName="lot_active"  >  
+              <label class="labelcls">Lot Active <span style="color:#ff0000">*</span></label>
+            </div>
+          </div>
+         
+            <div class="float-right">
+            <a class="btn btn-default font-weight-bold mr-2"
+              routerLink="/superadmin/products"
+              >Cancel</a>
+            
+ 
+
+            <ng-container *ngIf="product">
+              <button
+                type="submit"
+                class="btn btn-primary btn-elevate"
+                (click)="save()"
+                 
+                >
+                Save
+                
+              </button>
+            </ng-container>
+          </div>
+        </form>
+      </div>
+    </ng-container>
+
+    <!-- <ng-container
+      *ngIf="activeTabId === tabs.REMARKS_TAB && product && product.id"
+    >
+      <app-remarks [productId]="product.id"></app-remarks>
+    </ng-container>
+
+    <ng-container
+      *ngIf="activeTabId === tabs.SPECIFICATIONS_TAB && product && product.id"
+    >
+      <app-specifications [productId]="product.id"></app-specifications>
+    </ng-container> -->
+  </div>
+</div>
+ 

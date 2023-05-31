@@ -1,0 +1,99 @@
+<div class="content-area" style="background-color: white;">
+  <div class="row">
+
+    <div class="col-md-9 col-9 ">
+      <h2 class="inner-hd text-left">View Permits</h2>
+
+
+    </div>
+    <div class="col-md-3 col-3 text-right">
+      <a type="button " class="btn btn-primary" routerLink="/customer/managepermit/add">Add
+        Permits</a>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 col-12 mt-4 text-right">
+      <form>
+        <div class="form-row align-items-center">
+          <div class="col-auto">
+            <label>From</label>
+            <input type="date" [(ngModel)]="fromDate" name="fromDtae" class="form-control inline-frm"
+              placeholder="MM/DD/YYYY">
+          </div>
+          <div class="col-auto">
+            <label>To</label>
+            <input type="date" [(ngModel)]="toDate" name="toDtae" class="form-control inline-frm"
+              placeholder="MM/DD/YYYY">
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-default" (click)="save()">Show</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <hr class="brdr-btm">
+
+  <div class="row mb-3">
+    <div class="col">
+      <div class="table-responsive angular-bootstrap-table">
+        <table class="table table-head-custom table-vertical-center overflow-hidden">
+          <thead>
+            <th>
+              Permit No
+              <app-sort-icon column="permit_no" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+                (sort)="sort($event)"></app-sort-icon>
+            </th>
+            <th>
+              Permit Type
+              <app-sort-icon column="permit_type" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+                (sort)="sort($event)"></app-sort-icon>
+            </th>
+            <th>
+              Payment Type
+              <app-sort-icon column="payment_type" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+                (sort)="sort($event)"></app-sort-icon>
+            </th>
+            <th>
+              Plate No
+              <app-sort-icon column="license" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+                (sort)="sort($event)"></app-sort-icon>
+            </th>
+            <th>
+              Courtesy Card No
+              <app-sort-icon column="courtesy_number" [activeColumn]="sorting.column"
+                [activeDirection]="sorting.direction" (sort)="sort($event)"></app-sort-icon>
+            </th>
+            <th>
+              Transaction Date
+              <app-sort-icon column="transaction_date" [activeColumn]="sorting.column"
+                [activeDirection]="sorting.direction" (sort)="sort($event)"></app-sort-icon>
+            </th>
+            <th>Expriy Date & Time <app-sort-icon column="expires_date" [activeColumn]="sorting.column"
+                [activeDirection]="sorting.direction" (sort)="sort($event)"></app-sort-icon>
+            </th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let viewpermit of viewpermitService.items$ | async">
+              <td>{{ viewpermit.permit_no }}</td>
+              <td>{{ viewpermit.permit_type }}</td>
+              <td>{{ viewpermit.payment_type }}</td>
+              <td>{{ viewpermit.license }}</td>
+              <td>{{ viewpermit.courtesy_number }}</td>
+              <td>{{ viewpermit.transaction_date }}</td>
+              <td>{{ viewpermit.expires_date }}</td>
+            </tr>
+
+            <div *ngIf="(viewpermitService.items$ | async).length == 0">
+              <span class="norecord"> No Records Found! </span>
+            </div>
+
+          </tbody>
+        </table>
+      </div>
+      <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+        [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+  </div>

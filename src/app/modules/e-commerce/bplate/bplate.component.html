@@ -1,0 +1,145 @@
+<div id="msgupdate" class="alert alert-custom alert-primary msgupdate" style="display: none;">
+  <div class="alert-text admimsg">Courtesy Card Successfully Update!</div>
+</div>
+
+<div id="msgadd" class="alert alert-custom alert-primary msgadd" style="display: none;">
+  <div class="alert-text admimsg">Courtesy Card Successfully added!</div>
+</div>
+
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Banned Plates</h3>
+    </div>
+
+
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-primary" (click)="create()">Add Plates</button>
+    </div>
+  </div>
+  <div class="card-body">
+    <!-- begin: Filtration form -->
+    <div class="form form-label-right">
+      <div class="form-group row">
+        
+        <div class="col-lg-6">
+
+          <div class="row" [formGroup]="searchGroup">
+            <label class="col-lg-2 col-form-label"><b>Search:</b></label>
+            <div class="col-lg-5">
+              <input type="text" class="form-control" name="searchText" placeholder="Search" value=""
+                formControlName="searchTerm" />
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+    <!-- end: Filtration form -->
+
+    <!-- begin: Grouping -->
+    <ng-container *ngIf="grouping.getSelectedRowsCount()">
+      <div class="form">
+        <div class="row align-items-center form-group-actions margin-top-20 margin-bottom-20">
+          <div class="col-xl-12">
+            <div class="form-group form-group-inline">
+              <div class="form-label form-label-no-wrap">
+                <label class="font-bold font-danger"><span>Selected records count:
+                    <b>{{ grouping.getSelectedRowsCount() }}</b></span></label>
+              </div>
+              <div>
+                <button type="button" class="btn btn-danger font-weight-bolder font-size-sm mr-1"
+                  (click)="deleteSelected()">
+                  <i class="fa fa-trash"></i> Delete All
+                </button>&nbsp;
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <!-- end: Grouping -->
+
+    <!-- begin:Table -->
+    
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <th class="selection-cell-header" data-row-selection="true">
+            <label class="checkbox checkbox-single"><input type="checkbox" (click)="grouping.selectAllRows()"
+                [checked]="grouping.checkAreAllRowsSelected()" /><span></span></label>
+          </th>
+          
+          <th>
+            LOT Number
+            <app-sort-icon column="lot_no" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+              (sort)="sort($event)"></app-sort-icon>
+          </th>
+          <th>
+            Plate Number
+            <app-sort-icon column="card_no" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+              (sort)="sort($event)"></app-sort-icon>
+          </th>
+          
+          <th>
+            CREATED DATE
+            <app-sort-icon column="created_at" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+              (sort)="sort($event)"></app-sort-icon>
+          </th>
+         
+          <th>ACTIONS</th>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let bplate of Bplateservice.items$ | async">
+
+            <td class="selection-cell">
+              <label class="checkbox checkbox-single"><input type="checkbox"
+                  (click)="grouping.selectRow(bplate.id)" [checked]="grouping.isRowSelected(bplate.id)" />
+                <span></span>
+              </label>
+            </td>
+            <td>{{ bplate.lot_no }}</td>
+            <td>{{ bplate.plate_no | titlecase }}</td>
+           
+            
+            <!-- <td>{{ courtesycard.email }}</td>
+              <td>{{ courtesycard.gender }}</td>-->
+            <td>{{ bplate.created_at | date: 'MMM d, y' }}</td>
+            
+            
+            <td>
+
+              <!-- <a title="Edit courtesycard" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                (click)="edit(bplate.id)">
+                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
+                  class="svg-icon svg-icon-md svg-icon-primary">
+                </span>
+              </a> -->
+
+              <a title="Delete bplate" class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                (click)="delete(bplate.id)">
+                <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                  class="svg-icon svg-icon-md svg-icon-danger">
+                </span>
+              </a>
+            </td>
+          </tr>
+
+
+
+          <div *ngIf="(Bplateservice.items$ | async).length == 0">
+            <span class="norecord"> No Records Found! </span>
+          </div>
+
+        </tbody>
+      </table>
+    </div>
+    <!-- end: Table -->
+    <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+      [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+  </div>
+
+</div>

@@ -1,0 +1,106 @@
+<div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title h4" id="example-modal-sizes-title-lg">
+        <ng-container *ngIf="courtesycard">
+          <ng-container *ngIf="courtesycard.id">Edit</ng-container>
+          <ng-container *ngIf="!courtesycard.id">Create</ng-container>
+          CARD DETAILS
+        </ng-container>
+      </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px">
+      <ng-container *ngIf="isLoading$ | async">
+        <div class="overlay-layer bg-transparent">
+          <div class="spinner spinner-lg spinner-success"></div>
+        </div>
+      </ng-container>
+  
+      <ng-container *ngIf="courtesycard">
+        <form action="#" class="form form-label-right" [formGroup]="formGroup">
+          <div class="card-body">
+            <div class="mb-15">
+  
+             
+  
+              <div class="form-group row">
+                <label class="col-lg-3 col-form-label"><b>Card No: </b><span style="color:#ff0000">*</span></label>
+                <div class="col-lg-5">
+                  <input type="number" class="form-control form-control-lg form-control-solid" name="card_no"
+                    placeholder="Card No" autocomplete="off" [class.is-invalid]="isControlInvalid('card_no')"
+                    [class.is-valid]="isControlValid('card_no')" formControlName="card_no" />
+                  <div class="valid-feedback" *ngIf="isControlValid('card_no')">
+                    card no was entered correct
+                  </div>
+                  <div class="invalid-feedback" *ngIf="controlHasError('required', 'card_no')">
+                    Card No is required
+                  </div>
+                </div>
+              </div>
+  
+              
+  
+              <div class="form-group row">
+                <label class="col-lg-3 col-form-label"><b>Available Calls:</b><span style="color:#ff0000">*</span></label>
+                <div class="col-lg-5">
+                  <input type="number" class="form-control form-control-lg form-control-solid" name="calls"
+                    placeholder="calls" autocomplete="off" [class.is-invalid]="isControlInvalid('calls')"
+                    [class.is-valid]="isControlValid('calls')" formControlName="calls" />
+                  <div class="valid-feedback" *ngIf="isControlValid('calls')">
+                    calls was entered correct
+                  </div>
+                  <div class="invalid-feedback" *ngIf="controlHasError('required', 'calls')">
+                    Available calls is required
+                  </div>
+                </div>
+              </div>
+  
+           
+   
+  
+  
+              <div class="form-group row">
+                <label class="col-lg-3 col-form-label"><b>Card Type:</b> <span style="color:#ff0000">*</span></label>
+                <div class="col-lg-5">
+                  <select class="form-control form-control-lg form-control-solid" name="card_type"
+                    [class.is-invalid]="isControlInvalid('card_type')" formControlName="card_type">
+                    <option value="Unlimited">Unlimited</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="One time">One time</option>
+                  </select>
+                </div>
+              </div>
+  
+              <div class="form-group row">
+                <label class="col-lg-3 col-form-label"><b>Card Valid:</b></label>
+                <div class="col-lg-5">
+                  <input type="checkbox" id="card_vaild" name="card_vaild" formControlName="card_vaild"
+                    [(ngModel)]="twentyfourhour_permit_checked">
+                  <label class="labelcls">Vaild</label>
+                </div>
+              </div>
+  
+               
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-lg-3"></div>
+              <div class="col-lg-5">
+                <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+                  Cancel
+                </button>
+                <ng-container *ngIf="courtesycard">
+                  <button type="submit" class="btn btn-primary btn-elevate" (click)="save()"
+                     >
+                    Update
+                  </button>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ng-container>
+    </div>
+  
+  </div>

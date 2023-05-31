@@ -1,0 +1,59 @@
+<div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title h4" id="example-modal-sizes-title-lg">
+       
+           <ng-container  >Band plates</ng-container>
+       
+        
+      </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px">
+     
+      <ng-container  >
+        <form action="#" class="form form-label-right" [formGroup]="formGroup">
+          <div class="card-body">
+            
+
+           
+              <div class="form-group row">
+                <label class="col-lg-3 col-form-label"><b>Plate No: </b><span style="color:#ff0000">*</span></label>
+                <div class="col-lg-5">
+                  <input type="text" class="form-control form-control-lg form-control-solid" name="plate_no"
+                  [pattern]="alphaNumeric" (keypress)="keyPressAlphaNumericWithCharacters($event)"
+                    placeholder="plate No" autocomplete="off" [class.is-invalid]="isControlInvalid('plate_no')"
+                    [class.is-valid]="isControlValid('plate_no')" formControlName="plate_no" />
+                  <div class="valid-feedback" *ngIf="isControlValid('plate_no')">
+                    plate No was entered correct
+                  </div>
+                  <div class="invalid-feedback" *ngIf="controlHasError('required', 'plate_no')">
+                    plate No is required
+                  </div>
+                  <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'plate_no')">
+                    Invalid  plate No
+                </div>
+
+                </div>
+              </div>
+             
+          </div>
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-lg-3"></div>
+              <div class="col-lg-5">
+                <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+                  Cancel
+                </button>
+                <ng-container >
+                  <button type="submit" class="btn btn-primary btn-elevate" (click)="save()"
+                    [disabled]="formGroup.invalid">
+                    Save
+                  </button>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ng-container>
+    </div>
+  
+  </div>

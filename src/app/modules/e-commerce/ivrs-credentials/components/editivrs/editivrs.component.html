@@ -1,0 +1,82 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <ng-container *ngIf="IvrsPage">
+                <ng-container *ngIf="IvrsPage.id">Edit</ng-container>
+                <ng-container *ngIf="!IvrsPage.id">Create</ng-container>
+                MANAGERS PIN DETAILS
+            </ng-container>
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="IvrsPage">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="card-body">
+                    <div class="mb-15">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label"><b>Lot No:</b> <span
+                                    style="color:#ff0000">*</span></label>
+                            <div class="col-lg-5">
+                                <select class="form-control form-control-lg form-control-solid" name="lot_no"
+                                    [class.is-invalid]="isControlInvalid('lot_no')" formControlName="lot_no">
+                                   
+                                    <option  *ngFor="let product of productsService.items$ | async; let i = index" [value]="product.lot_no">{{product.lot_no }}</option>  
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label"><b>Name:</b><span
+                                    style="color:#ff0000">*</span></label>
+                            <div class="col-lg-5">
+                                <input class="form-control form-control-lg form-control-solid" name="name"
+                                    placeholder="name" autocomplete="off" [class.is-invalid]="isControlInvalid('name')"
+                                    [class.is-valid]="isControlValid('name')" formControlName="name" />
+                                <div class="invalid-feedback" *ngIf="controlHasError('required', 'name')">
+                                    Available calls is required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label"><b>Pin: </b><span
+                                    style="color:#ff0000">*</span></label>
+                            <div class="col-lg-5">
+                                <input type="number" class="form-control form-control-lg form-control-solid" name="pin"
+                                    placeholder="Card No" autocomplete="off"
+                                    [class.is-invalid]="isControlInvalid('pin')"
+                                    [class.is-valid]="isControlValid('pin')" formControlName="pin" />
+                                <div class="invalid-feedback" *ngIf="controlHasError('required', 'pin')">
+                                    Card No is required
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-5">
+                            <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+                                Cancel
+                            </button>
+                            <ng-container *ngIf="IvrsPage">
+                                <button type="submit" class="btn btn-primary btn-elevate" (click)="save()"
+                                    [disabled]="formGroup.invalid">
+                                    Save
+                                </button>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+
+</div>

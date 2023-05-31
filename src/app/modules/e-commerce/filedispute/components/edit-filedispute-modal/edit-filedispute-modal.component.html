@@ -1,0 +1,25 @@
+ <div class="modal-content">
+    <div class="overlay overlay-block cursor-default modal-body"  >
+            <form action="#"   [formGroup]="formGroup">
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label"><b>Status:</b></label>
+                <div class="col-lg-5">
+                    
+                  <select class="form-control form-control-lg form-control-solid" name="status"
+                  #mySelect (change)='onOptionsSelected(mySelect.value)'
+                      formControlName="status">
+                    <option selected> Please Select</option>
+                    <option value="new">New</option>
+                    <option value="process">Process</option>
+                    <option value="completed">Completed</option>
+                  </select>
+                </div>
+              </div>
+          
+        </form>
+    </div>
+  </div>
+ 
+
+
+ 

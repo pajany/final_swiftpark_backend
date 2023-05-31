@@ -1,0 +1,137 @@
+<div class="content-area" style="background-color: white;">
+    <div class="row">
+        <div class="col-md-6 col-6 text-left">
+            <h2 class="inner-hd">Account Summary</h2>
+        </div>
+        <div class="col-md-6 col-6 text-right">
+            <form>
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <label>From</label>
+                        <input type="date" class="form-control inline-frm" placeholder="MM/DD/YYYY">
+                    </div>
+                    <div class="col-auto">
+                        <label>To</label>
+                        <input type="date" class="form-control inline-frm" placeholder="MM/DD/YYYY">
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-default">Show</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr class="brdr-btm">
+
+    <div class="row mb-3">
+        <div class="col">
+            <h4 class="inner-subhd">LOT DETAILS</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">LOT NO.</th>
+                            <th scope="col">Permit Sales ‎
+                                Using Credit Card</th>
+                            <th scope="col">TAX</th>
+                            <th scope="col">TOTAL</th>
+                            <th scope="col">CREDIT CARD
+                                TRANSACTION</th>
+                            <th scope="col">SWIFTPARK CARD
+                                TRANSACTION</th>
+                            <th scope="col">TOTAL AMOUNT COLLECTED
+                                FROM THE USER</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ summarydata.lot_no }}</td>
+                            <td>{{ summarydata.subtotalamount_credit }}</td>
+                            <td>${{ summarydata.tax_credit }}</td>
+                            <td>${{ summarydata.total_credit }}</td>
+                            <td>{{ summarydata.trans_credit }}</td>
+                            <td>{{ summarydata.trans_courtesy }}</td>
+                            <td>${{ summarydata.sub_total_all }}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <h4 class="inner-subhd">SwiftPark Charges‎</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Credit Card‎
+                                Permit Charge</th>
+                            <th scope="col">TAX</th>
+                            <th scope="col">TOTAL</th>
+                            <th scope="col">Credit Card ‎
+                                Transaction</th>
+                            <th scope="col">TAX</th>
+                            <th scope="col">Swift Park Card ‎
+                                Transaction</th>
+                            <th scope="col">TAX</th>
+                            <th scope="col">SwiftPark ‎
+                                Amount‎</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>51.60</td>
+                            <td>6.71</td>
+                            <td>58.31</td>
+                            <td>53.75</td>
+                            <td>6.99</td>
+                            <td>0.00</td>
+                            <td>0.00</td>
+                            <td>119.05</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <h4 class="inner-subhd">Client Portion‎</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <colgroup width="20%"></colgroup>
+                    <colgroup width="60%"></colgroup>
+                    <colgroup width="20%"></colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col">PERMIT SALES</th>
+                            <th scope="col">TAX</th>
+                            <th scope="col">TOTAL</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>${{ summarydata.swift_client_share_amo}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col text-center">
+            <h4 class="amt-txt">Amount Payable to Client: <span>${{ summarydata.swift_client_share_amo}}</span></h4>
+        </div>
+    </div>
+
+</div>

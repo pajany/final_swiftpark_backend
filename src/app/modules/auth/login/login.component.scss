@@ -1,0 +1,95 @@
+:host {
+  width: 100%;
+  @media (min-width: 992px) {
+    .login-form {
+      width: 100%;
+      max-width: 450px;
+
+      .mat-form-field {
+        width: 100%;
+      }
+    }
+  }
+}
+
+h1,
+.h1 {
+    font-size: 1.9rem !important;
+}
+
+// Barani Changes
+.login-container {
+    min-width: 500px;
+    // min-height: 490px;
+    display: block;
+    // margin: 88px auto 0;
+    background-color: #ffffff;
+    border: 1px solid #d8dfe9;
+    border-radius: 2px;
+    padding: 40px;
+}
+.text-hd {
+    font-size: 18px;
+    color: #000000;
+    font-weight: 600;
+    margin: 35px 0 25px;
+    display: block;
+}
+.mb-42 {
+    margin-bottom: 30px;
+}
+.login-container label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.form-control {
+    height: 40px !important;
+    border-radius: 0 !important;
+    border: 1px solid #c8caca;
+    font-size: 14px !important;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.5) !important;
+}
+.g-btn {
+    font-size: 16px !important;
+    color: #ffffff !important;
+    background-color: #5dab14 !important;
+    text-transform: uppercase;
+    border-color: #5dab14 !important;
+    min-height: 52px;
+    font-weight: 500 !important;
+}
+.btn-primary.focus,
+.btn-primary:focus {
+    background-color: #569e12 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+.form-control:focus {
+    border-color: #000 !important;
+    box-shadow: none !important;
+}
+.g-btn:hover {
+    background-color: #569e12 !important;
+}
+.gr-btn,
+.gr-btn:hover,
+.gr-btn:focus {
+    background-color: #f6f6f6 !important;
+    color: #000000 !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    min-height: 52px;
+    border-color: #d8dfe9 !important;
+    text-transform: uppercase;
+} 
+.content-area {
+    padding: 30px;
+}
+.inner-hd {
+    font-size: 24px;
+    color: #5dab14;
+    font-weight: 500;
+    margin: 6px 0 0;
+}

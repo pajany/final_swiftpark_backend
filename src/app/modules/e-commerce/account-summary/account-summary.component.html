@@ -1,0 +1,102 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+      <div class="card-title">
+          <h3 class="card-label">Account Summary: </h3>
+      </div>
+
+  </div>
+
+<div class="form form-label-right defaul">
+  <div class="form-group row">
+    <div class="form-group row" [formGroup]="searchGroup">
+    <div class="col-lg-3">
+       <label class="col-lg-8 col-form-label" style="margin-left: 48px;"><b>Lot No:</b></label>
+       <div class="col-lg-10">
+          <select class="form-control" name="lot_no"  formControlName="lot_no"  style="margin-left: 48px;" >
+            <option> Please Select</option>  
+            <option  *ngFor="let product of productsService.items$ | async; let i = index" 
+            [value]="product.lot_no">{{product.lot_no }}</option>  
+         </select>
+     </div>
+     
+   </div>
+ 
+   <div class="form-group hidden">
+    <div class="input-group">
+      <input name="datepicker"
+             class="form-control"
+             ngbDatepicker
+             #datepicker="ngbDatepicker"
+              (dateSelect)="onDateSelection($event)"
+              formControlName="fromdate"
+             [displayMonths]="1"
+             type="hidden"
+             [startDate]="fromDate!"
+             >
+    </div>
+  </div>
+  
+   
+  <div class="col-lg-3">
+      <label class="col-lg-12 col-form-label"><b>From Date:</b></label>
+      <div class="col-lg-10">
+        <div class="input-group input-group-solid ">
+          <input #fromdate
+          class="form-control"
+          placeholder="dd/mm/yyyy"
+          name="fromdate"
+          (dateSelect)="onDateSelection($event)"
+          formControlName="fromdate"
+          [value]="formatter.format(fromDate)"
+          (input)="fromDate = validateInput(fromDate, fromdate.value)">
+          <div class="input-group-append">
+            <button class="btn  calendar" (click)="datepicker.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+  <div class="col-lg-3">
+    <label class="col-lg-6 col-form-label"><b>To Date:</b></label>
+    <div class="col-lg-10">
+      <div class="input-group input-group-solid ">
+        <input #todate
+              class="form-control"
+                placeholder="dd/mm/yyyy"
+              name="todate"
+              ngbDatepicker
+              #d="ngbDatepicker"
+              formControlName="todate"
+              (dateSelect)="onDateSelection($event)"
+              [value]="formatter.format(toDate)"
+              (input)="toDate = validateInput(toDate, todate.value)">
+              <div class="input-group-append">
+                <button class="btn calendar" (click)="d.toggle()" type="button"></button>
+              </div>
+      </div> 
+     </div>
+  </div>
+
+
+    <div class="col-lg-3">
+      <button
+      type="submit"
+      class="btn btn-primary btn-elevate sho"
+      (click)="save()">
+      Show
+     </button>
+    </div>
+  </div>
+<hr/>
+  <table class="lottable" id="lotTable" style="width: 100%;margin-left: 42px;">
+           
+  </table>
+  
+  </div>
+
+
+
+</div>
+
+
+</div>  

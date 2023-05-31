@@ -1,0 +1,144 @@
+
+<div id="msgupdate" class="alert alert-custom alert-primary msgupdate" style="display: none;"  >
+    <div class="alert-text admimsg">Manage Faq Successfully update!</div>
+  </div>
+  
+  <div id="msgadd" class="alert alert-custom alert-primary msgadd" style="display: none;"  >
+    <div class="alert-text admimsg">Manage Faq Successfully added!</div>
+  </div>
+  
+  <div class="card card-custom gutter-b">
+    <div class="card-header">
+      <div class="card-title">
+        <h3 class="card-label">Manage FAQ list 
+        
+        </h3>
+      </div>
+      <div class="card-toolbar" style="margin-left: 60%;">
+        
+      </div>
+  
+      <div class="card-toolbar">
+        <a
+          type="button"
+          class="btn btn-primary"
+          routerLink="/superadmin/managefaq/add"
+          >New Faq</a>
+      </div>
+    </div>
+    
+    <div class="card-body">
+      <!-- begin: Filtration form -->
+      <div class="form form-label-right">
+        <div class="form-group row">
+          <div class="col-lg-4">
+            <div class="row" [formGroup]="filterGroup">
+             
+            </div>
+          </div>
+          <div class="col-lg-6"></div>
+          <div class="col-lg-2" [formGroup]="searchGroup">
+            <input
+              type="text"
+              class="form-control"
+              name="searchText"
+              placeholder="Search"
+              value=""
+              formControlName="searchTerm"
+            />
+            <!-- <small class="form-text text-muted"
+              ><b>Search</b> in all fields</small> -->
+          </div>
+        </div>
+      </div>
+      <!-- end: Filtration form -->
+  
+      <!-- begin: Grouping -->
+   
+      <!-- end: Grouping -->
+      <!-- begin:Table -->
+      <div class="table-responsive angular-bootstrap-table">
+        <table
+          class="table table-head-custom table-vertical-center overflow-hidden"
+        >
+          <thead>
+           
+            <th>
+             FAQ Question
+              <app-sort-icon
+                column="lot_no"
+                [activeColumn]="sorting.column"
+                [activeDirection]="sorting.direction"
+                (sort)="sort($event)"
+              ></app-sort-icon>
+            </th>
+            <th>
+            FAQ Asnwers
+              <app-sort-icon
+                column="located"
+                [activeColumn]="sorting.column"
+                [activeDirection]="sorting.direction"
+                (sort)="sort($event)"
+              ></app-sort-icon>
+            </th>
+          
+            <th>ACTIONS  </th>
+          </thead>
+          <tbody>
+       
+            <tr *ngFor="let managefaq of managefaqService.items$ | async">
+              
+           
+
+              <td>{{ managefaq.faq_question }}   </td>
+              <td>{{ managefaq.faq_answer }}</td>
+                            
+              <td>
+                <a
+                  title="Edit managefaq"
+                  class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                  [routerLink]="'/superadmin/managefaq/edit/' + managefaq.id"
+                >
+                  <span
+                    [inlineSVG]="
+                      './assets/media/svg/icons/Communication/Write.svg'
+                    "
+                    cacheSVG="true"
+                    class="svg-icon svg-icon-md svg-icon-primary"
+                  >
+                  </span>
+                </a>
+                <!-- <a
+                  title="Delete managefaq"
+                  class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                  (click)="delete(managefaq.id)"
+                >
+                  <span
+                    [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
+                    cacheSVG="true"
+                    class="svg-icon svg-icon-md svg-icon-danger"
+                  >
+                  </span>
+                </a> -->
+              </td>  
+            </tr>
+          
+          </tbody>
+          
+          <div *ngIf="(managefaqService.items$ | async).length == 0">
+            <span class="norecord"> No Records Found! </span>  
+          </div> 
+        
+  
+        </table>
+      </div>
+      <!-- end: Table -->
+      <app-paginator
+        class="d-flex justify-content-between align-items-center flex-wrap"
+        [paginator]="paginator"
+        [isLoading]="isLoading"
+        (paginate)="paginate($event)"
+      ></app-paginator>
+    </div>
+  </div>
+  
